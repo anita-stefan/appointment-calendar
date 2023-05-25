@@ -10,43 +10,73 @@
     </script>
 </head>
 <body>
+@csrf
+<form id="form">
 <div class="container">
     <input id="data" type="date" name="data" min="{{ $currentData }}">
-    <label for="cars">Choose a hour:</label>
-    <select name="cars" id="cars">
-        <option value="1">Alege</option>
-        @foreach($hoursAvailable as $hour)
-            <option value="{{ $hour }}">{{ $hour }}</option>
-        @endforeach
+    <label for="hour">Choose a hour:</label>
+    <select name="hour" id="hour">
+{{--        @foreach($hoursAvailable as $hour)--}}
+            <option value="">Alege ora</option>
+{{--        @endforeach--}}
     </select>
     <button id="submit">Programeaza</button>
-    @if(isset($data))
-        <label>{{ date('Y-m-d', strtotime($data)) }}</label>
-    @endif
 </div>
-
+</form>
 </body>
 </html>
 
 <script>
 
-    $('#submit').on('click', function (e) {
-        let a = $('#data').val()
-        let b = $('#cars').val()
-
+    $('#data').on('change', function() {
+        let data = this.value;
+        console.log(data)
         $.ajax({
-            url: '/insert-data',
-            data: {'date': a, 'hour': b, _token: '{!! csrf_token() !!}'},
-            type: "POST",
-            cache: false,
-            success: function (data) {
-                alert('Programarea s-a facut')
-            },
-            error: function (error) {
-                console.log(error)
+            url: '/hours',
+            data: {'date': data, _token: '{!! csrf_token() !!}'},
+            type:'GET',
+            success: function(data) {
+                $('option').remove()
+                data.map((e) => {
+                    $("#hour").append("<option>"+e+"</option>")
+
+                })
+                console.log(data)
             }
         })
     })
+
+    $('#submit').on('click', function () {
+        let date = $('#data').val()
+        let hour = $('#hour').val()
+
+        if(date !== '') {
+            $.ajax({
+                url: '/insert-data',
+                data: {'date': date, 'hour': hour, _token: '{!! csrf_token() !!}'},
+                type: "POST",
+                cache: false,
+                success: function () {
+                    $('#data').val('')
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            })
+        } else {
+            alert('Selecteaza o data')
+        }
+    })
+
+    $('#data').on('change', function () {
+        let day = new Date(this.value).getDay();
+        if ([0, 6].includes(day)) {
+            this.value = ''
+            alert('Nu e permis in weekend')
+        }
+    })
+
+
 </script>
 
 

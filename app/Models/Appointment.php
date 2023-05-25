@@ -15,8 +15,8 @@ class Appointment extends Model
         'availability_appointment_time',
     ];
 
-    static function getTime()
+    static function checkReservation($date)
     {
-        return self::select('appointment_time')->where('availability_appointment_time', 1)->get();
+        return self::where('appointment_date', $date)->select('appointment_time')->get();
     }
 }
