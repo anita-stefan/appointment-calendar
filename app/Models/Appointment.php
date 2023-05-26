@@ -15,6 +15,14 @@ class Appointment extends Model
         'availability_appointment_time',
     ];
 
+    static function createAppointment($date, $hour)
+    {
+        return self::create([
+            'appointment_date' => $date,
+            'appointment_time' => $hour
+        ]);
+    }
+
     static function checkReservation($date)
     {
         return self::where('appointment_date', $date)->select('appointment_time')->get();

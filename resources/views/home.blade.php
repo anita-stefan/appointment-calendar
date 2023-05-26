@@ -55,14 +55,14 @@
                 cache: false,
                 success: function () {
                     $('#data').val('')
-                    alert('Programarea a ajut loc cu succes')
+                    alert('Ai fost programat!')
                 },
                 error: function (error) {
                     console.log(error)
                 }
             })
         } else {
-            alert('Selecteaza o data')
+            alert('Selecteaza o data!')
         }
     })
 
@@ -70,7 +70,7 @@
         let day = new Date(this.value).getDay();
         if ([0, 6].includes(day)) {
             this.value = ''
-            alert('Nu e permis in weekend')
+            alert('Alege o zi din din intervalul Luni - Vineri')
         }
     })
 </script>

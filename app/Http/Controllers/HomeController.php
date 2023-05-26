@@ -42,9 +42,6 @@ class HomeController extends Controller
         $date = $this->request->date;
         $hour = $this->request->hour;
 
-        Appointment::create([
-            'appointment_date' => $date,
-            'appointment_time' => $hour
-        ]);
+        Appointment::createAppointment($date, $hour);
     }
 }
