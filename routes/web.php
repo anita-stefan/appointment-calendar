@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
-
 Route::get('/', [HomeController::class, 'home']);
 Route::get('/hours', [HomeController::class, 'getHours']);
 Route::post('/insert-data', [HomeController::class, 'insertData']);

@@ -1,44 +1,41 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Page Title</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script
-        src="https://code.jquery.com/jquery-3.7.0.min.js"
-        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
-        crossorigin="anonymous">
-    </script>
-</head>
-<body>
-@csrf
-<form id="form">
-<div class="container">
-    <input id="data" type="date" name="data" min="{{ $currentData }}">
-    <label for="hour">Choose a hour:</label>
-    <select name="hour" id="hour">
-{{--        @foreach($hoursAvailable as $hour)--}}
-            <option value="">Alege ora</option>
-{{--        @endforeach--}}
-    </select>
-    <button id="submit">Programeaza</button>
-</div>
-</form>
-</body>
+    <head>
+        <title>Appointment calendar</title>
+        <meta charset="utf-8">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <script
+            src="https://code.jquery.com/jquery-3.7.0.min.js"
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+            crossorigin="anonymous">
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="center">
+                <h2>Programeaza-te la o sedinta</h2>
+                <input id="data" type="date" name="data" min="{{ $currentData }}">
+                <select name="hour" id="hour">
+                    <option value="">Alege ora</option>
+                </select>
+                <button id="submit">Programeaza</button>
+            </div>
+        </div>
+    </body>
 </html>
 
 <script>
-
-    $('#data').on('change', function() {
+    $('#data').on('change', function () {
         let data = this.value;
         console.log(data)
         $.ajax({
             url: '/hours',
             data: {'date': data, _token: '{!! csrf_token() !!}'},
-            type:'GET',
-            success: function(data) {
+            type: 'GET',
+            success: function (data) {
                 $('option').remove()
                 data.map((e) => {
-                    $("#hour").append("<option>"+e+"</option>")
+                    $("#hour").append("<option>" + e + "</option>")
 
                 })
                 console.log(data)
@@ -50,7 +47,7 @@
         let date = $('#data').val()
         let hour = $('#hour').val()
 
-        if(date !== '') {
+        if (date !== '') {
             $.ajax({
                 url: '/insert-data',
                 data: {'date': date, 'hour': hour, _token: '{!! csrf_token() !!}'},
@@ -58,6 +55,7 @@
                 cache: false,
                 success: function () {
                     $('#data').val('')
+                    alert('Programarea a ajut loc cu succes')
                 },
                 error: function (error) {
                     console.log(error)
@@ -75,31 +73,29 @@
             alert('Nu e permis in weekend')
         }
     })
-
-
 </script>
-
 
 <style>
     .container {
-        display: flex;
+        width: 100%;
+        height: auto;
+    }
+
+    .center {
+        height: 45rem;
+        width: 45%;
+        margin: auto;
+        display: grid;
         align-items: center;
         justify-content: center;
-        border: 1px solid;
-        width: 100%;
-        height: 30rem;
+        align-content: center;
+        gap: 27px;
     }
 
-    input {
-        width: 13.6rem;
-        height: 50px;
+    input, select, button {
+        height: 40px;
+        border-radius: 5px;
     }
-
-    button {
-        width: 13.6rem;
-        height: 50px;
-    }
-
 </style>
 
 

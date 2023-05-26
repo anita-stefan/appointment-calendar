@@ -14,14 +14,11 @@ class HomeController extends Controller
     {
         $this->request = $request;
     }
+
     public function home()
     {
-        $data = $this->request->input('data');
-
         return view('home')->with([
-            'data' => $data,
-            'currentData' => date('Y-m-d'),
-            'hoursAvailable' => self::getHours()
+            'currentData' => date('Y-m-d')
         ]);
     }
 
@@ -44,14 +41,6 @@ class HomeController extends Controller
     {
         $date = $this->request->date;
         $hour = $this->request->hour;
-
-//        Appointment::updateOrCreate(
-//            ['appointment_time' => $hour],
-//            [
-//                'appointment_date' => $date,
-//                'availability_appointment_time' => 0
-//            ]
-//        );
 
         Appointment::create([
             'appointment_date' => $date,
