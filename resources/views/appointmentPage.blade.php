@@ -27,18 +27,16 @@
 <script>
     $('#data').on('change', function () {
         let data = this.value;
-        console.log(data)
         $.ajax({
             url: '/hours',
             data: {'date': data, _token: '{!! csrf_token() !!}'},
             type: 'GET',
             success: function (data) {
                 $('option').remove()
-                data.map((e) => {
-                    $("#hour").append("<option>" + e + "</option>")
+                data.map((freeHours) => {
+                    $("#hour").append("<option>" + freeHours + "</option>")
 
                 })
-                console.log(data)
             }
         })
     })

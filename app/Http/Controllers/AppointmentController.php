@@ -6,7 +6,7 @@ use App\Models\Appointment;
 use App\Models\Hours;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class AppointmentController extends Controller
 {
     protected $request;
 
@@ -15,11 +15,9 @@ class HomeController extends Controller
         $this->request = $request;
     }
 
-    public function home()
+    public function appointmentPage()
     {
-        return view('home')->with([
-            'currentData' => date('Y-m-d')
-        ]);
+        return view('appointmentPage')->with('currentData', date('Y-m-d'));
     }
 
     public function getHours()
@@ -43,5 +41,10 @@ class HomeController extends Controller
         $hour = $this->request->hour;
 
         Appointment::createAppointment($date, $hour);
+    }
+
+    public function getAppointmentPage()
+    {
+        return view('appointments')->with('appointments', Appointment::getAllAppointments());
     }
 }

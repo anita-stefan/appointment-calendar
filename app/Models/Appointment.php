@@ -27,4 +27,9 @@ class Appointment extends Model
     {
         return self::where('appointment_date', $date)->select('appointment_time')->get();
     }
+
+    static function getAllAppointments()
+    {
+        return self::select('appointment_date', 'appointment_time')->orderBy('appointment_date','ASC')->get();
+    }
 }

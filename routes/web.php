@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AppointmentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'home']);
-Route::get('/hours', [HomeController::class, 'getHours']);
-Route::post('/insert-data', [HomeController::class, 'insertData']);
+Route::get('/', [AppointmentController::class, 'appointmentPage']);
+Route::get('/appointments', [AppointmentController::class, 'getAppointmentPage']);
+Route::get('/hours', [AppointmentController::class, 'getHours']);
+Route::post('/insert-data', [AppointmentController::class, 'insertData']);
